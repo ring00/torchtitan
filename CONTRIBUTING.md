@@ -7,6 +7,21 @@ possible. Contributions should follow the [Contributing Guidelines](#contributin
 pip install -r requirements-dev.txt
 ```
 
+### Type Checking
+`torchtitan` uses [mypy](http://mypy-lang.org/) for static type checking. Type checking helps catch bugs early and improves code quality.
+
+To run mypy locally:
+```bash
+mypy torchtitan --config-file=pyproject.toml
+```
+
+Type checking configuration is in `pyproject.toml` under `[tool.mypy]`. The configuration:
+- Excludes experimental code (`torchtitan/experiments/`) and flux models
+- Ignores missing imports from third-party libraries
+- Uses Python 3.10+ type annotation syntax
+
+When adding new code, please include type annotations for function signatures. Use `# type: ignore[error-code]` comments sparingly and only when necessary (e.g., for intentional API overrides or complex dynamic types).
+
 ### Pull Requests
 We actively welcome your pull requests.
 
