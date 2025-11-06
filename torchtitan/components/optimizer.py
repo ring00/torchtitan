@@ -87,7 +87,7 @@ class OptimizersContainer(Optimizer, Stateful, Generic[T]):
     def __len__(self) -> int:
         return len(self.optimizers)
 
-    def step(self, *args, **kwargs) -> None:
+    def step(self, *args, **kwargs) -> None:  # type: ignore[override]
         for optimizer in self.optimizers:
             optimizer.step(*args, **kwargs)
 
@@ -169,10 +169,10 @@ class OptimizersInBackwardContainer(OptimizersContainer):
         )
         self._post_init(all_params, optimizer_kwargs)
 
-    def step(self) -> None:
+    def step(self) -> None:  # type: ignore[override]
         pass
 
-    def zero_grad(self) -> None:
+    def zero_grad(self) -> None:  # type: ignore[override]
         pass
 
 
@@ -214,7 +214,7 @@ class FTOptimizersContainer(OptimizersContainer):
         super().load_state_dict(state_dict)
         self.init_cache_state_dict()
 
-    def step(self, *args, **kwargs) -> None:
+    def step(self, *args, **kwargs) -> None:  # type: ignore[override]
         """Calling the correct step() depending on the caller.
 
         TorchFT's OptimizerWrapper.step() is designed to be called only once
@@ -342,7 +342,7 @@ def build_optimizers_with_moe_load_balancing(
 
     def _should_register_moe_balancing_hook(model_parts: list[nn.Module]) -> bool:
         for model_part in model_parts:
-            for transformer_block in model_part.layers.values():
+            for transformer_block in model_part.layers.values():  # type: ignore[operator]
                 if transformer_block.moe_enabled:
                     # Assumption: load_balance_coeff is set universally on all moe blocks.
                     return bool(transformer_block.moe.load_balance_coeff)
@@ -363,7 +363,7 @@ def build_optimizers_with_moe_load_balancing(
         # default compute stream. Need to assess if this is OK performance-wise.
         tokens_per_expert_list = []
         for model_part in model_parts:
-            for transformer_block in model_part.layers.values():
+            for transformer_block in model_part.layers.values():  # type: ignore[operator]
                 if not transformer_block.moe_enabled:
                     continue
                 if transformer_block.moe.load_balance_coeff is None:
@@ -389,7 +389,7 @@ def build_optimizers_with_moe_load_balancing(
         moe_layer_idx = 0
         with torch.no_grad():
             for model_part in model_parts:
-                for transformer_block in model_part.layers.values():
+                for transformer_block in model_part.layers.values():  # type: ignore[operator]
                     if not transformer_block.moe_enabled:
                         continue
                     moe = transformer_block.moe

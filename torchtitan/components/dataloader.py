@@ -79,7 +79,7 @@ class ParallelAwareDataloader(StatefulDataLoader, BaseDataLoader):
         return {
             # We don't have to use pickle as DCP will serialize the state_dict. However,
             # we have to keep this for backward compatibility.
-            self._rank_id: pickle.dumps(super().state_dict()),
+            self._rank_id: pickle.dumps(super().state_dict()),  # type: ignore[safe-super]
             "world_size": self.dp_world_size,
         }
 
@@ -101,4 +101,4 @@ class ParallelAwareDataloader(StatefulDataLoader, BaseDataLoader):
         )
         # We don't have to use pickle as DCP will serialize the state_dict. However, we have to
         # keep this for backward compatibility.
-        super().load_state_dict(pickle.loads(state_dict[self._rank_id]))
+        super().load_state_dict(pickle.loads(state_dict[self._rank_id]))  # type: ignore[safe-super]

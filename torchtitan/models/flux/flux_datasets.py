@@ -100,9 +100,9 @@ def _cc12m_wds_data_processor(
 
     return {
         "image": img,
-        "clip_tokens": clip_tokens,  # type: List[int]
-        "t5_tokens": t5_tokens,  # type: List[int]
-        "prompt": sample["txt"],  # type: str
+        "clip_tokens": clip_tokens,
+        "t5_tokens": t5_tokens,
+        "prompt": sample["txt"],
     }
 
 
@@ -131,9 +131,9 @@ def _coco_data_processor(
 
     return {
         "image": img,
-        "clip_tokens": clip_tokens,  # type: List[int]
-        "t5_tokens": t5_tokens,  # type: List[int]
-        "prompt": prompt,  # type: str
+        "clip_tokens": clip_tokens,
+        "t5_tokens": t5_tokens,
+        "prompt": prompt,
     }
 
 
